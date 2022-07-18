@@ -1,18 +1,33 @@
 CXX = g++
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -g
+IODIR = ../../proj3_IO/
+proj3: Route.o Port.o Navigator.o proj3.cpp 
+	$(CXX) $(CXXFLAGS) Route.o Port.o Navigator.o proj3.cpp -o proj3
 
-proj2: Chemist.o Lab.o Substance.h proj2.cpp
-	$(CXX) $(CXXFLAGS) Chemist.o Substance.h Lab.o proj2.cpp -o proj2
+Navigator.o: Port.o Route.o Navigator.h Navigator.cpp
+	$(CXX) $(CXXFLAGS) -c Navigator.cpp
 
-Lab.o: Chemist.o Substance.h Lab.cpp Lab.h
-	$(CXX) $(CXXFLAGS) -c Lab.cpp
+Route.o: Port.o Route.h Route.cpp
+	$(CXX) $(CXXFLAGS) -c Route.cpp
 
-Chemist.o: Chemist.h Chemist.cpp Substance.h
-	$(CXX) $(CXXFLAGS) -c Chemist.cpp
+Port.o: Port.h Port.cpp
+	$(CXX) $(CXXFLAGS) -c Port.cpp
 
 clean:
 	rm *.o*
 	rm *~ 
 
 run:
-	./proj2
+	./proj3 proj3_data.txt
+
+run1:
+	./proj3 proj3_data.txt
+
+val1:
+	valgrind ./proj3 proj3_data.txt
+
+submit:
+	cp Port.h Port.cpp Route.h Route.cpp Navigator.h Navigator.cpp proj3.cpp ~/cs202proj/proj3
+
+ta1:
+	valgrind ./proj3 proj3_ta1.txt
