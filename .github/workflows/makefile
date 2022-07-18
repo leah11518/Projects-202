@@ -1,33 +1,60 @@
 CXX = g++
 CXXFLAGS = -Wall -g
-IODIR = ../../proj3_IO/
-proj3: Route.o Port.o Navigator.o proj3.cpp 
-	$(CXX) $(CXXFLAGS) Route.o Port.o Navigator.o proj3.cpp -o proj3
+IODIR =../../proj5_IO/
 
-Navigator.o: Port.o Route.o Navigator.h Navigator.cpp
-	$(CXX) $(CXXFLAGS) -c Navigator.cpp
+proj5: Question.o Lqueue.o Trivia.o proj5.cpp
+	$(CXX) $(CXXFLAGS) Trivia.o Question.o Lqueue.cpp proj5.cpp -o proj5
 
-Route.o: Port.o Route.h Route.cpp
-	$(CXX) $(CXXFLAGS) -c Route.cpp
+Trivia.o: Trivia.cpp Lqueue.o Question.o
+	$(CXX) $(CXXFLAGS) -c Trivia.cpp
 
-Port.o: Port.h Port.cpp
-	$(CXX) $(CXXFLAGS) -c Port.cpp
+Lqueue.o: Lqueue.cpp
+	$(CXX) $(CXXFLAGS) -c Lqueue.cpp
+
+Question.o: Question.cpp
+	 $(CXX) $(CXXFLAGS) -c Question.cpp
 
 clean:
 	rm *.o*
 	rm *~ 
 
-run:
-	./proj3 proj3_data.txt
+string:
+	./proj5 proj5_string.txt string
 
-run1:
-	./proj3 proj3_data.txt
+string1:
+	valgrind ./proj5 proj5_string.txt string
 
-val1:
-	valgrind ./proj3 proj3_data.txt
+int:
+	./proj5 proj5_int.txt int
+
+int1:
+	valgrind ./proj5 proj5_int.txt int
+
+double:
+	./proj5 proj5_double.txt double
+
+double1:
+	valgrind ./proj5 proj5_double.txt double
+
+lqueue:
+	g++ -Wall lqueue_test.cpp Lqueue.cpp -o lqueue_test
+
+test:
+	valgrind ./lqueue_test
 
 submit:
-	cp Port.h Port.cpp Route.h Route.cpp Navigator.h Navigator.cpp proj3.cpp ~/cs202proj/proj3
+	cp Lqueue.cpp Trivia.cpp Question.cpp  proj5.cpp ~/cs202proj/proj5
 
-ta1:
-	valgrind ./proj3 proj3_ta1.txt
+##Used for grading and testing
+
+copy:
+	cp $(IODIR)tf* .
+
+tf1:
+	g++ -Wall tf_test.cpp Lqueue.cpp -o tf_test
+
+tf2:
+	valgrind ./tf_test
+
+tf3:
+	valgrind ./proj5 proj5_data.txt
